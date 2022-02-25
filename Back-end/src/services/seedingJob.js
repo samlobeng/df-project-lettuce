@@ -20,4 +20,17 @@ seedingRouter.post("/", async (req, res, next) => {
     }
 });
 
+////////////////////////////////////////////////
+seedingRouter.get("/",
+    async (req, res, next) => {
+        try {
+            const jobList = await SeedingModel.find();
+            res.json(jobList)
+
+        }catch (err){
+            res.json({message: err})
+        }
+    });
+
+
 export default seedingRouter;
