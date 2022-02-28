@@ -105,3 +105,17 @@ canvas {
     margin: 100px auto;
     border: 1px solid black;
 }
+
+table{
+    margin: 50px auto;
+}
+th, td {
+    border:1px solid black;
+}
+
+#dataTable{
+    height:10px;
+    overflow-y:auto;
+    height: 200px;
+}
+
