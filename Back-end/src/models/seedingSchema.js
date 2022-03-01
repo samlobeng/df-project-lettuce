@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
@@ -24,4 +25,7 @@ const seedingJobSchema = new Schema({
 
 const SeedingModel = model("seeding", seedingJobSchema);
 
+
 export default SeedingModel;
+
+

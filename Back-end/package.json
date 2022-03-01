@@ -1,7 +1,6 @@
 {
-  "name": "Back-end",
+  "name": "back-end",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "type": "module",
   "dependencies": {
@@ -10,12 +9,26 @@
     "express": "^4.17.3",
     "express-list-endpoints": "^6.0.0",
     "http": "^0.0.1-security",
+    "http-errors": "^2.0.0",
     "mongoose": "^6.2.3",
+    "node-fetch": "^3.2.0",
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon -r dotenv/config -e js src/server.js",
-    "start": "node ./src/server.js"
-  }
+    "start": "node src/server.js"
+  },
+  "devDependencies": {
+    "@shelf/jest-mongodb": "^2.2.0",
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2"
+  },
+  "jest": {
+    "preset": "@shelf/jest-mongodb"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
