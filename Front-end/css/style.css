@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 .home{
     display: flex;
 }
@@ -8,12 +13,14 @@ body#sidemenu .side {
     position: fixed;
 }
 .main-container{
-    width: 50rem;
+    width: 51rem;
     height: 35rem;
-    margin-left:38rem;
+    margin-left:36rem;
     margin-top:20px;
     z-index: 2;
     display: flex;
+    background-color: red;
+    border: 1px solid black;
 }
 nav{
     background-color:#F3E244;

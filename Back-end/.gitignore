@@ -3,7 +3,7 @@
 #
 
 .keep
-
+.idea
 _pycache_/
 # System Files
 .DS_Store
