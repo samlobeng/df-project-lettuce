@@ -20,15 +20,15 @@ seedingRouter.post("/", async (req, res, next) => {
     }
 });
 
-// seedingRouter.get('/', async (req, res, next) => {
-//     try {
-//         const response = await SeedingModel.find();
-//         res.status(201).send(response);
-//     } catch (error) {
-//         console.log(error);
-//         next(error);
-//     }
-// });
+seedingRouter.get('/', async (req, res, next) => {
+    try {
+        const response = await SeedingModel.find();
+        res.status(201).send(response);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
 
 seedingRouter.get('/:id', async(req, res, next) => {
     try {

@@ -52,14 +52,14 @@ function select_row() {
             alert('selected_job_ID:' + selected_job_ID);
         }
     }
-
-
 }
+
 
 // load records on load
 window.onload = function(){
     loadTable()
 }
+
 
 //Runs when we press the save button
 const handleSubmit = async (event) =>{
