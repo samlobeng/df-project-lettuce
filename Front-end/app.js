@@ -49,11 +49,23 @@ function select_row() {
         if (radios[i].checked == true){
             // const row = radios[i].parentNode.parentNode.textContent
             const selected_job_ID = radios[i].parentNode.parentNode.children[1].textContent
-            alert('selected_job_ID:' + selected_job_ID);
+            return  selected_job_ID
+            //alert('selected_job_ID:' + selected_job_ID);
         }
     }
 }
 
+async function fetchID(){
+    const id =  select_row()
+    try {
+        const response = await fetch(endpoint+"/"+id)
+        if (response.ok){
+            const data = await response.json()
+            console.log(data)
+        }
+    }catch (error){}
+
+}
 
 // load records on load
 window.onload = function(){
@@ -96,7 +108,7 @@ const handleSubmit = async (event) =>{
 ////////////////handleRUN to run seeding job
 const handleRUN = async (event) => {
 
-    select_row()
+    await fetchID()
 
     //EDIT THIS to call for SEEDING FUNCTION
 

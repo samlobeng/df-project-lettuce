@@ -11,6 +11,7 @@ body#sidemenu .side {
     height: 100vh;
     width: 35rem;
     position: fixed;
+    overflow-y: auto;
 }
 .main-container{
     width: 51rem;
@@ -121,8 +122,7 @@ th, td {
 }
 
 #dataTable{
-    height:10px;
-    overflow-y:auto;
     height: 200px;
+    overflow-y: auto;
 }
 
