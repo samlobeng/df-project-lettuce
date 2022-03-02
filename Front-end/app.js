@@ -15,6 +15,7 @@ function draw(t){
                 <td>${t[i].bottom_right}</td>
                 <td>${t[i].density}</td>
                 <td>${t[i].depth}</td>
+                <td>${t[i].createdAt}</td>
                 </tr>`
         table.innerHTML+= row
     }
