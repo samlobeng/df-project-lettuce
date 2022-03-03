@@ -1,8 +1,9 @@
+import 'regenerator-runtime/runtime'
+import {plantingSeeds} from "./plantingExecution.js";
 
 const btnExecute = document.querySelector(".button")
-const btnRUN = document.querySelector(".button")
+const btnRUN = document.getElementById("button")
 const endpoint = "http://localhost:3001/seedingjob"
-
 
 // making the table of existing seedingjobs
 function draw(t){
@@ -63,6 +64,7 @@ async function fetchID(){
         if (response.ok){
             const data = await response.json()
             console.log(data)
+            return data
         }
     }catch (error){}
 
@@ -109,7 +111,8 @@ const handleSubmit = async (event) =>{
 ////////////////handleRUN to run seeding job
 const handleRUN = async (event) => {
 
-    await fetchID()
+    const {top_left, bottom_right, density,depth} = await fetchID()
+    plantingSeeds(top_left[0],bottom_right[0],top_left[1],bottom_right[1], density, depth)
 
     //EDIT THIS to call for SEEDING FUNCTION
 
@@ -120,7 +123,6 @@ const handleRUN = async (event) => {
 
 btnExecute.addEventListener("click", handleSubmit)
 btnRUN.addEventListener("click", handleRUN)
-
 
 
 

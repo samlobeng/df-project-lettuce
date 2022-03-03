@@ -5,7 +5,6 @@ import listEndpoints from 'express-list-endpoints';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import seedingRouter from './services/seedingJob.js'
-
 import { badRequestErrorHandler, notFoundErrorHandler, catchAllErrorHandler } from "./errorHandler.js"
 
 
