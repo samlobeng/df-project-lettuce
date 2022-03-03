@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body id="sidemenu" onload="draw();">
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse mr-5" id="navbarNavDropdown" >
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown seeding">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                    SEEDING
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Create Seeding Job</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="home">
+<div class="side">
+    <p class="title-seeding ">CREATE SEEDING JOB</p>
+    <hr>
+
+    <div class="dimesions">
+        <p>Area</p>
+        <div class="container">
+        <div class="top-left">
+            <p>Top Left</p>
+            <div class="top-left-form">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="tl-x">X</label>
+                        <input type="number" class="form-control top-left-xvalue" id="tl-x">
+                    </div>
+                    <div class="form-group">
+                        <label for="tl-y">Y</label>
+                        <input type="number" class="form-control top-left-xvalue" id="tl-y" placeholder="">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="bottom-right">
+            <p>Bottom Right</p>
+            <div class="bottom-right-form">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="br-x">X</label>
+                        <input type="number" class="form-control bottom-right-xvalue" id="br-x">
+                    </div>
+                    <div class="form-group">
+                        <label for="br-y">Y</label>
+                        <input type="number" class="form-control bottom-right-xvalue" id="br-y" placeholder="">
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        <div class="density-depth-container">
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="density">Density</label>
+                    <input type="number" class="form-control" id="density" placeholder="Enter Density">
+                </div>
+                <div class="form-group">
+                    <label for="depth">Depth</label>
+                    <input type="number" class="form-control" id="depth" placeholder="Enter Depth">
+                </div>
+            </form>
+        </div>
+        <div class="button">
+            <button> Save </button>
+        </div>
+
+    </div>
+
+    <div id="dataTable">
+        <table class= "table table-bordered event_table">
+            <tr class="bg-warning">
+                <th></th>
+                <th>ID</th>
+                <th>Top left</th>
+                <th>Bottom right</th>
+                <th>Depth</th>
+                <th>Density</th>
+                <th>Date Created</th>
+            </tr>
+            <tbody id="myTable">
+
+            </tbody>
+        </table>
+        <div id="button">
+            <button> Run </button>
+        </div>
+    </div>
+
+
+</div>
+
+<!--<div class="main-container">-->
+<!--    <canvas id="tutorial" width="150" height="150">-->
+
+<!--    </canvas>-->
+<!--</div>-->
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
