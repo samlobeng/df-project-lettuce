@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import {plantingSeeds} from "./plantingExecution.js";
+import {plantingSeeds} from './plantingExecution.js'
 const btnExecute = document.querySelector(".button")
 const btnRUN = document.getElementById("button")
 const btnUpdate = document.querySelector(".updateButton")
@@ -131,8 +131,15 @@ const handleSubmit = async (event) => {
 
 ////////////////handleRUN to run seeding job
 const handleRUN = async (event) => {
-    const {top_left, bottom_right, density, depth} = await fetchID()
-    plantingSeeds(top_left[0], bottom_right[0], top_left[1], bottom_right[1], density, depth)
+    try {
+        const {top_left, bottom_right, density, depth} = await fetchID()
+        const minDistance = density
+        plantingSeeds(top_left[0], bottom_right[0], top_left[1], bottom_right[1], minDistance, depth)
+    }
+    catch (error){
+        console.log(error)
+    }
+    //plantingSeeds(0, 500, 0, 500, 200, 50);
 
         //EDIT THIS to call for SEEDING FUNCTION
 
