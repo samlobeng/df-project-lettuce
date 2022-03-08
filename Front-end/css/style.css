@@ -115,18 +115,17 @@ canvas {
 }
 
 table{
-    margin: 50px auto;
+    margin: 10px auto;
     width: auto;
 }
 
 #dataTable{
     width: auto;
-   height: 100vh;
+    max-height: 230px;
     overflow-y: auto;
     margin-left: 20px;
 }
-#button{
-    margin: 0;
-    padding: 0;
-}
 
+.updateBotton{
+    float: right;
+}

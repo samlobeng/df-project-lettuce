@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,7 +17,6 @@
     "lodash": "^4.17.21",
     "xstate": "^4.30.3"
   },
-  "type": "module",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.3",
