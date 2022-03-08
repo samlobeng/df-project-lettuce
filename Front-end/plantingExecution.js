@@ -67,7 +67,6 @@ function createGrid(x1, x2, y1, y2, minDistance) {
             }
             x=x+minDistance;
         }
-        console.log(grid)
         return grid;
     }
     catch (error){
@@ -76,11 +75,29 @@ function createGrid(x1, x2, y1, y2, minDistance) {
 
 }
 
+async function saveGrid(grid){
+   const endpoint = "http://localhost:3001/seededjobgrid"
+    try {
+        const response = await fetch(endpoint,{
+            method: "POST",
+            body: JSON.stringify(grid),
+            headers: {
+                "Content-type": "application/json",
+            },
+        })
+        if (response.ok){
+            console.log(response.body);
+        }
+    }
+    catch (err){
+       console.log(err)
+    }
+
+
+}
+
 export async function plantingSeeds(x1, x2, y1, y2, minDistance, depth){
-    console.log(x1)
-    console.log(x2)
-    console.log(y1)
-    console.log(depth)
+
     let grid = createGrid(x1, x2, y1, y2, minDistance);
     let counter = 0;
     const plantMachine = createMachine(
@@ -157,6 +174,7 @@ export async function plantingSeeds(x1, x2, y1, y2, minDistance, depth){
     );
     await fb.connect();
     const farmMachine = interpret(plantMachine).start();
+    saveGrid(grid)
 }
 
 /*

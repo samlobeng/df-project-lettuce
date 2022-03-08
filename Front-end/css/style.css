@@ -46,7 +46,7 @@ hr{
     border: 1px solid #9f9f9f;
     max-width: 30rem;
     margin: 2rem auto;
-    height: 334px;
+    height: 434px;
 
 }
 .container{
@@ -128,4 +128,9 @@ table{
 
 .updateBotton{
     float: right;
+}
+
+
+dropdmenu{
+
 }

@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import {plantingSeeds} from './plantingExecution.js'
+import {plantingSeeds, grid} from './plantingExecution.js'
 const btnExecute = document.querySelector(".button")
 const btnRUN = document.getElementById("button")
 const btnUpdate = document.querySelector(".updateButton")
@@ -41,20 +41,22 @@ function draw(t){
     $("#myTable").empty();
     const table = document.getElementById('myTable')
     for (let i=0;i<t.length;i++){
+        const date = new Date(t[i].createdAt)
         const row = `<tr>
                 <td><input type="radio" class="class_radio" name="checker""></input></td>
                 <td>${t[i]._id}</td>
+                <td>${t[i].plant_type}</td>
                 <td>${t[i].top_left}</td>
                 <td>${t[i].bottom_right}</td>
                 <td>${t[i].density}</td>
                 <td>${t[i].depth}</td>
-                <td>${t[i].createdAt}</td>
+                <td>${date.toLocaleString("de-DE")}</td>
                 </tr>`
         table.innerHTML+= row
     }
 }
 
-// function updateTable() {
+// function updateTable() {s
 //     $("#myTable tr").remove();
 //     $.ajax({
 //         type: "GET",
@@ -104,6 +106,7 @@ const handleSubmit = async (event) => {
 
         //getting data from the form and make data onject
     const myData = {
+        plant_type: document.getElementById("inputState").value,
         top_left: [parseInt(document.getElementById("tl-x").value), parseInt(document.getElementById("tl-y").value)],
         bottom_right: [parseInt(document.getElementById("br-x").value), parseInt(document.getElementById("br-y").value)],
         density: parseInt(document.getElementById("density").value),
@@ -132,7 +135,7 @@ const handleSubmit = async (event) => {
 ////////////////handleRUN to run seeding job
 const handleRUN = async (event) => {
     try {
-        const {top_left, bottom_right, density, depth} = await fetchID()
+        const {plant_type, top_left, bottom_right, density, depth} = await fetchID()
         const minDistance = density
         plantingSeeds(top_left[0], bottom_right[0], top_left[1], bottom_right[1], minDistance, depth)
     }
