@@ -1,5 +1,6 @@
 import {createMachine, interpret} from 'xstate'
 import { Farmbot } from 'farmbot';
+import {select_row,plant_type} from './app.js'
 
 
 
@@ -53,11 +54,13 @@ function convertToDistance(density){
     return Math.ceil(1000/Math.floor(Math.sqrt(density)));
 }
 
+let grid = [];
+
 function createGrid(x1, x2, y1, y2, minDistance) {
     try {
         const startX = Math.min(x1,x2);
         const startY = Math.min(y1,y2);
-        let grid = [];
+    
         let x = startY+Math.floor(minDistance/2);
         while(x+Math.ceil(minDistance/2)<=Math.max(x1,x2)){
             let y = startX+Math.floor(minDistance/2);
@@ -75,12 +78,20 @@ function createGrid(x1, x2, y1, y2, minDistance) {
 
 }
 
-async function saveGrid(grid){
+// const data = {
+//     plant_type: "",
+//     positions: grid,
+//     id: id,
+// }
+
+
+
+async function saveGrid(data){
    const endpoint = "http://localhost:3001/seededjobgrid"
     try {
         const response = await fetch(endpoint,{
             method: "POST",
-            body: JSON.stringify(grid),
+            body: JSON.stringify(data),
             headers: {
                 "Content-type": "application/json",
             },
@@ -97,8 +108,17 @@ async function saveGrid(grid){
 }
 
 export async function plantingSeeds(x1, x2, y1, y2, minDistance, depth){
+    const id = select_row()
+
+    const type = plant_type()
 
     let grid = createGrid(x1, x2, y1, y2, minDistance);
+    const data= {
+        plant_type: type,
+        positions: grid,
+        id: id
+    }
+
     let counter = 0;
     const plantMachine = createMachine(
         {
@@ -174,7 +194,7 @@ export async function plantingSeeds(x1, x2, y1, y2, minDistance, depth){
     );
     await fb.connect();
     const farmMachine = interpret(plantMachine).start();
-    saveGrid(grid)
+    saveGrid(data)
 }
 
 /*

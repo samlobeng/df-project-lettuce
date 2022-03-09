@@ -46,7 +46,7 @@ hr{
     border: 1px solid #9f9f9f;
     max-width: 30rem;
     margin: 2rem auto;
-    height: 334px;
+    height: 434px;
 
 }
 .container{
@@ -115,21 +115,25 @@ canvas {
 }
 
 table{
-    margin: 50px auto;
+    margin: 10px auto;
     width: auto;
 }
 
 #dataTable{
     width: auto;
-   height: 100vh;
+    max-height: 230px;
     overflow-y: auto;
     margin-left: 20px;
 }
-#button{
-    margin: 0;
-    padding: 0;
+
+.updateBotton{
+    float: right;
 }
 
+
+dropdmenu{
+
+}
 
 
 /*# sourceMappingURL=/style.78032849.css.map */

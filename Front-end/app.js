@@ -73,13 +73,26 @@ function updateTable() {
     loadTable()
 }
 
-function select_row() {
+export function select_row() {
     const radios = document.getElementsByName("checker")
     for (let i = 0; i < radios.length; i++) {
         if (radios[i].checked == true) {
                 // const row = radios[i].parentNode.parentNode.textContent
             const selected_job_ID = radios[i].parentNode.parentNode.children[1].textContent
             return selected_job_ID
+            //alert('selected_job_ID:' + selected_job_ID);
+        }
+    }
+}
+
+export function plant_type() {
+    const radios = document.getElementsByName("checker")
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked == true) {
+                // const row = radios[i].parentNode.parentNode.textContent
+            const selected_plant = radios[i].parentNode.parentNode.children[2].textContent
+            console.log("Hello", selected_plant)
+            return selected_plant
             //alert('selected_job_ID:' + selected_job_ID);
         }
     }
@@ -134,6 +147,7 @@ const handleSubmit = async (event) => {
 
 ////////////////handleRUN to run seeding job
 const handleRUN = async (event) => {
+    
     try {
         const {plant_type, top_left, bottom_right, density, depth} = await fetchID()
         const minDistance = density

@@ -28369,6 +28369,8 @@ var _xstate = require("xstate");
 
 var _farmbot = require("farmbot");
 
+var _app = require("./app.js");
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -28417,23 +28419,21 @@ function _pickUpSeed() {
             return fb.moveRelative({
               x: 0,
               y: 0,
-              z: -50,
+              z: -250,
               speed: 100
             });
 
           case 3:
             _context.next = 5;
-            return fb.writePin({
-              pin_mode: 0,
-              pin_number: 9,
-              pin_value: 1
+            return fb.togglePin({
+              pin_number: 9
             });
 
           case 5:
             return _context.abrupt("return", fb.moveRelative({
               x: 0,
               y: 0,
-              z: 50,
+              z: 250,
               speed: 100
             }));
 
@@ -28468,23 +28468,21 @@ function _plantSeed() {
             return fb.moveRelative({
               x: 0,
               y: 0,
-              z: -(100 + depth),
+              z: -(300 + depth),
               speed: 100
             });
 
           case 3:
             _context2.next = 5;
-            return fb.writePin({
-              pin_mode: 0,
-              pin_number: 9,
-              pin_value: 0
+            return fb.togglePin({
+              pin_number: 9
             });
 
           case 5:
             return _context2.abrupt("return", fb.moveRelative({
               x: 0,
               y: 0,
-              z: 100 + depth,
+              z: 300 + depth,
               speed: 100
             }));
 
@@ -28502,30 +28500,87 @@ function convertToDistance(density) {
   return Math.ceil(1000 / Math.floor(Math.sqrt(density)));
 }
 
+var grid = [];
+
 function createGrid(x1, x2, y1, y2, minDistance) {
-  var startX = Math.min(x1, x2);
-  var startY = Math.min(y1, y2);
-  var grid = [];
-  var x = startY + Math.floor(minDistance / 2);
+  try {
+    var startX = Math.min(x1, x2);
+    var startY = Math.min(y1, y2);
+    var x = startY + Math.floor(minDistance / 2);
 
-  while (x + Math.ceil(minDistance / 2) <= Math.max(x1, x2)) {
-    var y = startX + Math.floor(minDistance / 2);
+    while (x + Math.ceil(minDistance / 2) <= Math.max(x1, x2)) {
+      var y = startX + Math.floor(minDistance / 2);
 
-    while (y + Math.ceil(minDistance / 2) <= Math.max(y1, y2)) {
-      grid.push({
-        xVal: x,
-        yVal: y
-      });
-      y = y + minDistance;
+      while (y + Math.ceil(minDistance / 2) <= Math.max(y1, y2)) {
+        grid.push({
+          xVal: x,
+          yVal: y
+        });
+        y = y + minDistance;
+      }
+
+      x = x + minDistance;
     }
 
-    x = x + minDistance;
+    return grid;
+  } catch (error) {
+    console.log(error);
   }
+} // const data = {
+//     plant_type: "",
+//     positions: grid,
+//     id: id,
+// }
 
-  return grid;
+
+function saveGrid(_x2) {
+  return _saveGrid.apply(this, arguments);
 }
 
-function plantingSeeds(_x2, _x3, _x4, _x5, _x6, _x7) {
+function _saveGrid() {
+  _saveGrid = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(data) {
+    var endpoint, response;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            endpoint = "http://localhost:3001/seededjobgrid";
+            _context3.prev = 1;
+            _context3.next = 4;
+            return fetch(endpoint, {
+              method: "POST",
+              body: JSON.stringify(data),
+              headers: {
+                "Content-type": "application/json"
+              }
+            });
+
+          case 4:
+            response = _context3.sent;
+
+            if (response.ok) {
+              console.log(response.body);
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](1);
+            console.log(_context3.t0);
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[1, 8]]);
+  }));
+  return _saveGrid.apply(this, arguments);
+}
+
+function plantingSeeds(_x3, _x4, _x5, _x6, _x7, _x8) {
   return _plantingSeeds.apply(this, arguments);
 }
 /*
@@ -28540,13 +28595,20 @@ console.log("Die Anzahl Pflanzen beträgt: " + testGrid.length);
 
 
 function _plantingSeeds() {
-  _plantingSeeds = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(x1, x2, y1, y2, minDistance, depth) {
-    var grid, counter, plantMachine, farmMachine;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+  _plantingSeeds = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(x1, x2, y1, y2, minDistance, depth) {
+    var id, type, grid, data, counter, plantMachine, farmMachine;
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
+            id = (0, _app.select_row)();
+            type = (0, _app.plant_type)();
             grid = createGrid(x1, x2, y1, y2, minDistance);
+            data = {
+              plant_type: type,
+              positions: grid,
+              id: id
+            };
             counter = 0;
             plantMachine = (0, _xstate.createMachine)({
               id: 'planting',
@@ -28635,28 +28697,34 @@ function _plantingSeeds() {
                   });
                 },
                 closeMachine: function closeMachine() {
-                  fb.client.end();
                   farmMachine.stop();
                 }
               }
             });
-            _context3.next = 5;
+            _context4.next = 8;
             return fb.connect();
 
-          case 5:
+          case 8:
             farmMachine = (0, _xstate.interpret)(plantMachine).start();
+            saveGrid(data);
 
-          case 6:
+          case 10:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3);
+    }, _callee4);
   }));
   return _plantingSeeds.apply(this, arguments);
 }
-},{"xstate":"node_modules/xstate/es/index.js","farmbot":"node_modules/farmbot/dist/index.js"}],"app.js":[function(require,module,exports) {
+},{"xstate":"node_modules/xstate/es/index.js","farmbot":"node_modules/farmbot/dist/index.js","./app.js":"app.js"}],"app.js":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.plant_type = plant_type;
+exports.select_row = select_row;
 
 require("regenerator-runtime/runtime");
 
@@ -28668,29 +28736,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var btnExecute = document.querySelector(".button");
 var btnRUN = document.getElementById("button");
-var endpoint = "http://localhost:3001/seedingjob"; // making the table of existing seedingjobs
+var btnUpdate = document.querySelector(".updateButton");
+var btnDelete = document.querySelector(".deleteButton");
+var endpoint = "http://localhost:3001/seedingjob"; // load records on load
 
-function draw(t) {
-  var table = document.getElementById('myTable');
-
-  for (var i = 0; i < t.length; i++) {
-    var row = "<tr>\n                <td><input type=\"radio\" class=\"class_radio\" name=\"checker\"\"></input></td>\n                <td>".concat(t[i]._id, "</td>\n                <td>").concat(t[i].top_left, "</td>\n                <td>").concat(t[i].bottom_right, "</td>\n                <td>").concat(t[i].density, "</td>\n                <td>").concat(t[i].depth, "</td>\n                <td>").concat(t[i].createdAt, "</td>\n                </tr>");
-    table.innerHTML += row;
-  }
-}
-
-function updateTable() {
-  $("#myTable tr").remove();
-  $.ajax({
-    type: "GET",
-    url: endpoint,
-    dataType: "json",
-    async: true,
-    success: function success() {
-      loadTable();
-    }
-  });
-}
+window.onload = function () {
+  loadTable();
+};
 
 function loadTable() {
   fetch(endpoint).then(function (response) {
@@ -28698,6 +28750,49 @@ function loadTable() {
   }).then(function (myJson) {
     draw(myJson);
   });
+} // making the table of existing seedingjobs
+// function draw(t){
+//     const table = document.getElementById('myTable')
+//     for (let i=0;i<t.length;i++){
+//         const row = `<tr>
+//                 <td><input type="radio" class="class_radio" name="checker""></input></td>
+//                 <td>${t[i]._id}</td>
+//                 <td>${t[i].top_left}</td>
+//                 <td>${t[i].bottom_right}</td>
+//                 <td>${t[i].density}</td>
+//                 <td>${t[i].depth}</td>
+//                 <td>${t[i].createdAt}</td>
+//                 </tr>`
+//         table.innerHTML+= row
+//     }
+// }
+
+
+function draw(t) {
+  $("#myTable").empty();
+  var table = document.getElementById('myTable');
+
+  for (var i = 0; i < t.length; i++) {
+    var date = new Date(t[i].createdAt);
+    var row = "<tr>\n                <td><input type=\"radio\" class=\"class_radio\" name=\"checker\"\"></input></td>\n                <td>".concat(t[i]._id, "</td>\n                <td>").concat(t[i].plant_type, "</td>\n                <td>").concat(t[i].top_left, "</td>\n                <td>").concat(t[i].bottom_right, "</td>\n                <td>").concat(t[i].density, "</td>\n                <td>").concat(t[i].depth, "</td>\n                <td>").concat(date.toLocaleString("de-DE"), "</td>\n                </tr>");
+    table.innerHTML += row;
+  }
+} // function updateTable() {s
+//     $("#myTable tr").remove();
+//     $.ajax({
+//         type: "GET",
+//         url: endpoint,
+//         dataType: "json",
+//         async: true,
+//         success: function () {
+//             loadTable()
+//         }
+//     });
+// }
+
+
+function updateTable() {
+  loadTable();
 }
 
 function select_row() {
@@ -28712,61 +28807,69 @@ function select_row() {
   }
 }
 
+function plant_type() {
+  var radios = document.getElementsByName("checker");
+
+  for (var i = 0; i < radios.length; i++) {
+    if (radios[i].checked == true) {
+      // const row = radios[i].parentNode.parentNode.textContent
+      var selected_plant = radios[i].parentNode.parentNode.children[2].textContent;
+      console.log("Hello", selected_plant);
+      return selected_plant; //alert('selected_job_ID:' + selected_job_ID);
+    }
+  }
+}
+
 function fetchID() {
   return _fetchID.apply(this, arguments);
-} // load records on load
+} //Runs when we press the save button
 
 
 function _fetchID() {
-  _fetchID = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+  _fetchID = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
     var id, response, data;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             id = select_row();
-            _context3.prev = 1;
-            _context3.next = 4;
+            _context5.prev = 1;
+            _context5.next = 4;
             return fetch(endpoint + "/" + id);
 
           case 4:
-            response = _context3.sent;
+            response = _context5.sent;
 
             if (!response.ok) {
-              _context3.next = 11;
+              _context5.next = 11;
               break;
             }
 
-            _context3.next = 8;
+            _context5.next = 8;
             return response.json();
 
           case 8:
-            data = _context3.sent;
+            data = _context5.sent;
             console.log(data);
-            return _context3.abrupt("return", data);
+            return _context5.abrupt("return", data);
 
           case 11:
-            _context3.next = 15;
+            _context5.next = 15;
             break;
 
           case 13:
-            _context3.prev = 13;
-            _context3.t0 = _context3["catch"](1);
+            _context5.prev = 13;
+            _context5.t0 = _context5["catch"](1);
 
           case 15:
           case "end":
-            return _context3.stop();
+            return _context5.stop();
         }
       }
-    }, _callee3, null, [[1, 13]]);
+    }, _callee5, null, [[1, 13]]);
   }));
   return _fetchID.apply(this, arguments);
 }
-
-window.onload = function () {
-  loadTable();
-}; //Runs when we press the save button
-
 
 var handleSubmit = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(event) {
@@ -28778,6 +28881,7 @@ var handleSubmit = /*#__PURE__*/function () {
             event.preventDefault(); //getting data from the form and make data onject
 
             myData = {
+              plant_type: document.getElementById("inputState").value,
               top_left: [parseInt(document.getElementById("tl-x").value), parseInt(document.getElementById("tl-y").value)],
               bottom_right: [parseInt(document.getElementById("br-x").value), parseInt(document.getElementById("br-y").value)],
               density: parseInt(document.getElementById("density").value),
@@ -28824,38 +28928,116 @@ var handleSubmit = /*#__PURE__*/function () {
 
 var handleRUN = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(event) {
-    var _yield$fetchID, top_left, bottom_right, density, depth;
+    var _yield$fetchID, _plant_type, top_left, bottom_right, density, depth, minDistance;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
+            _context2.prev = 0;
+            _context2.next = 3;
             return fetchID();
 
-          case 2:
+          case 3:
             _yield$fetchID = _context2.sent;
+            _plant_type = _yield$fetchID.plant_type;
             top_left = _yield$fetchID.top_left;
             bottom_right = _yield$fetchID.bottom_right;
             density = _yield$fetchID.density;
             depth = _yield$fetchID.depth;
-            (0, _plantingExecution.plantingSeeds)(top_left[0], bottom_right[0], top_left[1], bottom_right[1], density, depth); //EDIT THIS to call for SEEDING FUNCTION
+            minDistance = density;
+            (0, _plantingExecution.plantingSeeds)(top_left[0], bottom_right[0], top_left[1], bottom_right[1], minDistance, depth);
+            _context2.next = 16;
+            break;
 
-          case 8:
+          case 13:
+            _context2.prev = 13;
+            _context2.t0 = _context2["catch"](0);
+            console.log(_context2.t0);
+
+          case 16:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[0, 13]]);
   }));
 
   return function handleRUN(_x2) {
     return _ref2.apply(this, arguments);
   };
+}(); ////////////////handleUpdate to delete a seeding job
+
+
+var handleDelete = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+    var id, response;
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            id = select_row();
+            _context3.prev = 1;
+            _context3.next = 4;
+            return fetch(endpoint + "/" + id, {
+              method: 'DELETE'
+            });
+
+          case 4:
+            response = _context3.sent;
+
+            if (response.ok) {
+              updateTable();
+              console.log("Seeding job removed!");
+            }
+
+            _context3.next = 11;
+            break;
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](1);
+            throw _context3.t0;
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[1, 8]]);
+  }));
+
+  return function handleDelete() {
+    return _ref3.apply(this, arguments);
+  };
+}(); ////////////////handleUpdate to update a seeding job
+
+
+var handleUpdate = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            console.log("updating the job");
+
+          case 1:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function handleUpdate() {
+    return _ref4.apply(this, arguments);
+  };
 }();
 
 btnExecute.addEventListener("click", handleSubmit);
-btnRUN.addEventListener("click", handleRUN);
+btnRUN.addEventListener("click", handleRUN); // btnUpdate.addEventListener('click', handleUpdate)
+
+btnDelete.addEventListener('click', handleDelete);
 },{"regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","./plantingExecution.js":"plantingExecution.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -28884,7 +29066,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58188" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62901" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
