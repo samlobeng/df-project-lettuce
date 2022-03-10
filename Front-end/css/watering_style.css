@@ -7,7 +7,7 @@
     display: flex;
 }
 body#sidemenu .side {
-    background-color: #eeecec;
+    background-color: rgba(127, 127, 127, 0.5);
     height: 100vh;
     width: 42rem;
     position: fixed;
@@ -24,7 +24,7 @@ body#sidemenu .side {
     border: 1px solid black;
 }
 nav{
-    background-color:#F3E244;
+    background-color:dodgerblue;
 }
 nav #navbarNavDropdown {
     display: flex;
@@ -88,7 +88,7 @@ button {
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: #F3E244;
+    background-color: dodgerblue;
     border: none;
     border-radius: 45px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -109,30 +109,15 @@ button:active {
     transform: translateY(-1px);
 }
 
-canvas {
-    margin: 100px auto;
-    border: 1px solid black;
-}
-
-/*table{*/
-/*    margin: 10px auto;*/
-/*    width: auto;*/
-/*}*/
-
-#dataTable{
+table{
+    /*margin: 10px auto;*/
     width: auto;
     max-height: 230px;
     overflow-y: auto;
     margin-left: 20px;
-    margin: 10px auto;
-    width: auto;
 }
 
-.updateBotton{
-    float: right;
-}
-
-
-.button-container{
-    float: right;
+#date_picker , #watering_time, #watering_interval{
+    border-radius: 5px;
+    border-color: transparent;
 }

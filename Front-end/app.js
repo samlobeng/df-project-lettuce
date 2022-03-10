@@ -156,10 +156,6 @@ const handleRUN = async (event) => {
     catch (error){
         console.log(error)
     }
-    //plantingSeeds(0, 500, 0, 500, 200, 50);
-
-        //EDIT THIS to call for SEEDING FUNCTION
-
 
 }
 
@@ -186,10 +182,13 @@ const handleUpdate = async () => {
 }
 
 
+
+
 btnExecute.addEventListener("click", handleSubmit)
 btnRUN.addEventListener("click", handleRUN)
 // btnUpdate.addEventListener('click', handleUpdate)
 btnDelete.addEventListener('click', handleDelete)
+
 
 
 

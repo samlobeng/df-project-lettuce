@@ -22,8 +22,8 @@
                     SEEDING
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Create Seeding Job</a>
-                    <a class="dropdown-item" href="watering.html">Watering</a>
+                    <a class="dropdown-item" href="#">Seeding Job</a>
+                    <a class="dropdown-item" href="watering.html">Watering Job</a>
                 </div>
             </li>
         </ul>
@@ -36,15 +36,15 @@
     <hr>
 
     <div class="dimesions">
-        <p>Area</p>
+<!--        <p>Area</p>-->
         <div class="form-row">
 
         </div>
-        <div class="form-group col-md-6 dropdmenum m-4">
+        <div class="form-group col-md-2 dropdmenum m-4">
             <label for="inputState">Plant type</label>
             <select id="inputState" class="form-control">
                 <option selected>Choose...</option>
-                <option value="lettuce">Lettuce</option>
+                <option value="lettuce" selected>Lettuce</option>
                 <option value="reddish">Reddish</option>
             </select>
         </div>
@@ -102,40 +102,37 @@
     <div id="dataTable">
         <table class= "table table-bordered event_table">
             <tr class="bg-warning">
-                <th></th>
-                <th>ID</th>
-                <th>Plant Type</th>
-                <th>Top left</th>
-                <th>Bottom right</th>
-                <th>Depth</th>
-                <th>Density</th>
-                <th>Date Created</th>
+                <td></td>
+                <td>ID</td>
+                <td>Plant Type</td>
+                <td>Top left</td>
+                <td>Bottom right</td>
+                <td>Depth</td>
+                <td>Density</td>
+                <td>Date Created</td>
             </tr>
             <tbody id="myTable">
 
             </tbody>
         </table>
     </div>
-    <div id="button">
-        <button class="runButton" onclick="handleRUN()"> Run </button>
-        <!--        <button class="updateButton" onclick="handleUpdate()"> Update </button>-->
-        <button class="deleteButton" onclick="handleDelete()"> Delete </button>
+    <div class="button-container">
+        <div>
+            <button class="runButton" onclick="handleRUN()"> Run </button>
+
+            <!--        <button class="updateButton" onclick="handleUpdate()"> Update </button>-->
+            <button class="deleteButton" onclick="handleDelete()"> Delete </button>
+        </div>
     </div>
 
 
 
 </div>
 
-<!--<div class="main-container">-->
-<!--    <canvas id="tutorial" width="150" height="150">-->
-
-<!--    </canvas>-->
-<!--</div>-->
-
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="./app.js"></script>
+<script type="module" src="./app.js"></script>
 </body>
 </html>
