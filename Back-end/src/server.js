@@ -5,7 +5,7 @@ import listEndpoints from 'express-list-endpoints';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import seedingRouter from './services/seedingJob.js'
-import seededRouter from './services/seededJobGrid.js'
+import statusRouter from './services/botStatus.js'
 import { badRequestErrorHandler, notFoundErrorHandler, catchAllErrorHandler } from "./errorHandler.js"
 
 
@@ -17,7 +17,7 @@ function connect(){
     dotenv.config();
 
     app.use('/seedingjob', seedingRouter);
-    app.use('/seededjobgrid', seededRouter);
+    app.use('/status', statusRouter);
     app.use(badRequestErrorHandler);
     app.use(notFoundErrorHandler);
     app.use(catchAllErrorHandler);
